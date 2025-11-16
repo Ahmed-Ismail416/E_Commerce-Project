@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ServiceAbstraction;
-using Shared.DTOs;
+using Shared;
+using Shared.DTOs.ProductModuleDtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +16,9 @@ namespace Presentation.Controllers
     {
         //Get All Products
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductDto>>> GetAllProducts()
+        public async Task<ActionResult<PaginateResult<ProductDto>>> GetAllProducts([FromQuery] ProductParam QueryParam)
         {
-            var Products =  await _serviceManager.ProductService.GetAllProductsAsync();
+            var Products =  await _serviceManager.ProductService.GetAllProductsAsync(QueryParam);
             return Ok(Products);
         }
 

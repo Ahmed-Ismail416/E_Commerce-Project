@@ -1,4 +1,5 @@
-﻿using Shared.DTOs;
+﻿using Shared;
+using Shared.DTOs.ProductModuleDtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ namespace ServiceAbstraction
 {
     public interface IProductService
     {
-        public Task<IEnumerable<ProductDto>> GetAllProductsAsync();
+        public Task<PaginateResult<ProductDto>> GetAllProductsAsync(ProductParam QueryParams);
         public Task<ProductDto?> GetProductByIdAsync(int id);
         public Task<IEnumerable<ProductBrandDto>> GetAllProductBrandsAsync();
         public Task<IEnumerable<ProductTypeDto>> GetAllProductTypesAsync();

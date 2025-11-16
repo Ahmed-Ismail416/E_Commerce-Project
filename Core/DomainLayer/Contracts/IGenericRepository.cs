@@ -13,11 +13,16 @@ namespace DomainLayer.Contracts
 
         Task<TEntity?> GetByIdAsync(Tkey id);
 
+        //Specification based
+        Task<IEnumerable<TEntity>> GetAllAsync(ISpecification<TEntity, Tkey> spec);
+        Task<TEntity?> GetByIdAsync(ISpecification<TEntity, Tkey> spec);
+        Task<int> CountAsync(ISpecification<TEntity, Tkey> spec);
         Task AddAsync(TEntity entity);
 
         void Update(TEntity entity);
 
         void Delete(TEntity entity);
+
 
     }
 }

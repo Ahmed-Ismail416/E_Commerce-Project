@@ -2,7 +2,7 @@
 using DomainLayer.Models.Products;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using Shared.DTOs;
+using Shared.DTOs.ProductModuleDtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +22,8 @@ namespace Services.Mapping
                            opt => opt.MapFrom<PictureResolver>());
             CreateMap<ProductBrand, ProductBrandDto>();
             CreateMap<ProductType, ProductTypeDto>();
+
+
         }
     }
 }

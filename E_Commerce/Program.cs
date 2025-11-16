@@ -1,11 +1,17 @@
 
 using DomainLayer.Contracts;
+using E_Commerce.Extensions;
+using E_Commerce.MiddleWares;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens.Experimental;
+using Persistence;
 using Persistence.Data;
 using Persistence.UnitOfWork;
 using ServiceAbstraction;
 using Services;
 using Services.Mapping;
+using Shared.ErrorModels;
 
 namespace E_Commerce
 {
@@ -18,27 +24,23 @@ namespace E_Commerce
             #region Services
 
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers()
+                            .AddApplicationPart(typeof(Presentation.Controllers.ProductController).Assembly);
 
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-            builder.Services.AddDbContext<StoreDbContext>(options =>
-                                                        options.UseSqlServer(builder.Configuration.GetConnectionString("E_Commerce")));
-            builder.Services.AddScoped<IDataSeeding, Persistence.DataSeeding>();
-            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-            builder.Services.AddAutoMapper(p => p.AddProfile(new ProfileMapping()));
-            builder.Services.AddScoped<IServiceManager, ServiceManager>();
+            builder.Services.AddSwaggerServices();
+
+            builder.Services.AddInfrastructureServices(builder.Configuration);
+            builder.Services.AddAplicationServices();
+
             builder.Services.AddTransient<PictureResolver>();
+            builder.Services.AddWebApiServices();
             #endregion
 
             var app = builder.Build();
-            using var scope = app.Services.CreateScope();
-            var objectofdataseeding = scope.ServiceProvider.GetRequiredService<IDataSeeding>();
-            await objectofdataseeding.SeedAsync();
+            await app.DataSeed();
 
-
+            app.UseCustomExceptionMiddleWare();
             #region PipeLine
-
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
