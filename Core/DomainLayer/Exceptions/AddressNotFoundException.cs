@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace DomainLayer.Exceptions
 {
-    public  class NotFoundException(string message) : Exception(message)
+    public sealed class AddressNotFoundException(string? user):NotFoundException($"User {user} has no address")
     {
+
     }
 }

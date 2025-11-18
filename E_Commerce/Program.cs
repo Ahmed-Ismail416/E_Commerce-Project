@@ -34,6 +34,7 @@ namespace E_Commerce
 
             builder.Services.AddTransient<PictureResolver>();
             builder.Services.AddWebApiServices();
+            builder.Services.AddJWTService(builder.Configuration);
             #endregion
 
             var app = builder.Build();
@@ -50,7 +51,8 @@ namespace E_Commerce
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

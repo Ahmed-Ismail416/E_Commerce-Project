@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DomainLayer.Exceptions
 {
-    public  class NotFoundException(string message) : Exception(message)
+    public sealed class UserNotFoundException(string? value) : NotFoundException($"User with identifier `{value}` was not found")
     {
     }
 }

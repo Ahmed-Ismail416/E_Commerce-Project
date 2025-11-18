@@ -8,7 +8,7 @@ namespace Shared.DTOs.BasketModuleDtos
 {
     public class BasketDto
     {
-        public string Id { get; set; }
-        public ICollection<BasketItemDto> Items { get; set; }
+        public string Id { get; set; } = default!;
+        public ICollection<BasketItemDto> Items { get; set; } = default!;
     }
 }

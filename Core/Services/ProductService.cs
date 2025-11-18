@@ -45,7 +45,7 @@ namespace Services
             var spec = new ProductWithBrandTypeSpecification(id);
             var Product = await _unitOfWork.GetRepository<Product, int>().GetByIdAsync(spec);
             if(Product is null)
-                throw new NotFoundException("Product", id.ToString());
+                throw new NotFoundException($"Product With Id: {id} Not Found");
             return _mapper.Map<Product, ProductDto>(Product);
         }
     }

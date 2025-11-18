@@ -14,7 +14,12 @@ namespace Services
     {
         public static IServiceCollection AddAplicationServices(this IServiceCollection Services)
         {
-            Services.AddAutoMapper(p => p.AddProfiles(new Profile[] { new ProfileMapping(), new BasketProfile() }));
+            Services.AddAutoMapper(p => p.AddProfiles(new Profile[] 
+            {
+                new ProfileMapping(),
+                new BasketProfile(),
+                new IdentityProfile()
+            }));
             Services.AddScoped<IServiceManager, ServiceManager>();
             return Services;
         }

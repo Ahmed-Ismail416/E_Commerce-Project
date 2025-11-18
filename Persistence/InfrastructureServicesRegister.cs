@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 using Persistence.UnitOfWork;
 using StackExchange.Redis;
 using Persistence.Repositories;
+using Persistence.Identity;
+using DomainLayer.Models.IdentityModule;
+using Microsoft.AspNetCore.Identity;
 namespace Persistence
 {
     public static class InfrastructureServicesRegister
@@ -27,6 +30,13 @@ namespace Persistence
             {
                 return ConnectionMultiplexer.Connect(Configuration.GetConnectionString("Redis"));
             });
+
+            Services.AddDbContext<StoreIdentityDbContext>(options =>
+                 options.UseSqlServer(Configuration.GetConnectionString("E_Commerce.Identity")));
+
+            Services.AddIdentityCore<ApplicationUser>()
+                    .AddRoles<IdentityRole>()
+                    .AddEntityFrameworkStores<StoreIdentityDbContext>();
 
             return Services;
         }

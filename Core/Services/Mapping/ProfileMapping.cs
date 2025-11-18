@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using DomainLayer.Models.IdentityModule;
 using DomainLayer.Models.Products;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using Shared.DTOs.BasketModuleDtos;
 using Shared.DTOs.ProductModuleDtos;
 using System;
 using System.Collections.Generic;
