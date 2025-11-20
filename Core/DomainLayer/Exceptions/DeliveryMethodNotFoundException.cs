@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DomainLayer.Exceptions
 {
-    public  abstract class NotFoundException(string message) : Exception(message)
+    public sealed class DeliveryMethodNotFoundException(object id) : NotFoundException($"Delivery method with id {id} not found")
     {
     }
 }

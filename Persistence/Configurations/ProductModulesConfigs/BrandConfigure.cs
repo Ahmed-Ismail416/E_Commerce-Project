@@ -4,19 +4,18 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Persistence.Configurations
+namespace Persistence.Configurations.ProductModulesConfigs
 {
-    internal class TypeConfigure : IEntityTypeConfiguration<ProductType>
+    internal class BrandConfigure : IEntityTypeConfiguration<ProductBrand>
     {
-        public void Configure(EntityTypeBuilder<ProductType> builder)
+        public void Configure(EntityTypeBuilder<ProductBrand> builder)
         {
             builder
-            .Property(p => p.Id)
-            .ValueGeneratedNever();
+           .Property(p => p.Id)
+           .ValueGeneratedNever();
         }
     }
 }

@@ -2,6 +2,7 @@
 using DomainLayer.Contracts;
 using DomainLayer.Models.IdentityModule;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using ServiceAbstraction;
 using System;
@@ -25,7 +26,10 @@ namespace Services
 
         public Lazy<IAuthunticationService> _athunticationService = new Lazy<IAuthunticationService>(() => new AuthenticationService(_userManager,_config,_mapper));
         
+        public Lazy<IOrderService> _orderService = new Lazy<IOrderService>(() => new OrderService(_basketrepository,unitOfWork,mapper));
         
+        public IOrderService OrderService => _orderService.Value;
+
         public IProductService ProductService => _productService.Value;
 
         public IBasketService BasketService => _basketService.Value;

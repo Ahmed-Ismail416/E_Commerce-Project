@@ -32,7 +32,7 @@ namespace E_Commerce
             builder.Services.AddInfrastructureServices(builder.Configuration);
             builder.Services.AddAplicationServices();
 
-            builder.Services.AddTransient<PictureResolver>();
+            
             builder.Services.AddWebApiServices();
             builder.Services.AddJWTService(builder.Configuration);
             #endregion

@@ -36,7 +36,7 @@ namespace Services
             if(basket is not null)
                 return _mapper.Map<CustomerBasket,BasketDto>(basket);
             else
-                throw new NotFoundException($"Basket with this key: {key}, Not Found");
+                throw new BasketNotFoundException(key);
         }
     }
 }

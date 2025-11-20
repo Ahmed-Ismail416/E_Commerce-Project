@@ -12,8 +12,8 @@ using Persistence.Identity;
 namespace Persistence.Identity.Migrations
 {
     [DbContext(typeof(StoreIdentityDbContext))]
-    [Migration("20251118103146_initialidentity")]
-    partial class initialidentity
+    [Migration("20251119203059_IdentityCreatiion")]
+    partial class IdentityCreatiion
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

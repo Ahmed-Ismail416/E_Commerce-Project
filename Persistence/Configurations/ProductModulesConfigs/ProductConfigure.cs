@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Persistence.Configurations
+namespace Persistence.Configurations.ProductModulesConfigs
 {
     internal class ProductConfigure : IEntityTypeConfiguration<Product>
     {

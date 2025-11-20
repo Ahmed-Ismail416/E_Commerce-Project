@@ -1,5 +1,6 @@
 ﻿using DomainLayer.Contracts;
 using DomainLayer.Models.IdentityModule;
+using DomainLayer.Models.OrderModule;
 using DomainLayer.Models.Products;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -50,7 +51,7 @@ namespace Persistence
                     }
                 }
 
-                // 2. Products
+                // 3. Products
                 if (!dbcontext.Products.Any())
                 {
                     using var productsFile = File.OpenRead(@"..\Persistence\DataSeed\products.json");
@@ -61,9 +62,40 @@ namespace Persistence
                     }
                 }
 
-              
+                // 4. Delivery Methods
+                if(!dbcontext.Set<DeliveryMethod>().Any())
+                {
+                    var dm1 = new DeliveryMethod
+                    {
+                        ShortName = "UPS1",
+                        Description = "Fastest Delivery Time",
+                        DeliveryTime = "1-2 Days",
+                        Price = 10m
+                    };
+                    var dm2 = new DeliveryMethod
+                    {
+                        ShortName = "UPS2",
+                        Description = "Get it within 5 days",
+                        DeliveryTime = "2-5 Days",
+                        Price = 15m
+                    };
+                    var dm3 = new DeliveryMethod
+                    {
+                        ShortName = "UPS3",
+                        Description = "Slower but cheap",
+                        DeliveryTime = "5-10 Days",
+                        Price = 2m
+                    };
+                    var dm4 = new DeliveryMethod
+                    {
+                        ShortName = "UPS4",
+                        Description = "Free! You get what you pay for",
+                        DeliveryTime = "1-2 Weeks",
+                        Price = 0m
+                    };
+                    await dbcontext.Set<DeliveryMethod>().AddRangeAsync(dm1, dm2, dm3, dm4);
+                }
 
-                // ✅ احفظ الكل مرة واحدة في نهاية المطاف
                 await dbcontext.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -76,6 +108,11 @@ namespace Persistence
 
         public async Task IdnentityDataSeedAsync()
         {
+            var migrations = await _identiyDbContext.Database.GetPendingMigrationsAsync();
+            if (migrations.Any())
+            {
+                await _identiyDbContext.Database.MigrateAsync();
+            }
             try
             {
                 if (!_roleManager.Roles.Any())

@@ -14,12 +14,17 @@ namespace Services
     {
         public static IServiceCollection AddAplicationServices(this IServiceCollection Services)
         {
-            Services.AddAutoMapper(p => p.AddProfiles(new Profile[] 
+            Services.AddAutoMapper(p => p.AddProfiles(new Profile[]
             {
                 new ProfileMapping(),
                 new BasketProfile(),
-                new IdentityProfile()
+                new IdentityProfile(),
+                new OrderProfile()
             }));
+            Services.AddTransient<PictureResolver>();
+            Services.AddTransient<OrderPictureResolver>();
+            //Services.AddAutoMapper(typeof(AplicationServicesRegesiter).Assembly);
+
             Services.AddScoped<IServiceManager, ServiceManager>();
             return Services;
         }
