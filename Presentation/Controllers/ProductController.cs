@@ -16,7 +16,7 @@ namespace Presentation.Controllers
     {
         //Get All Products
         [HttpGet]
-        [Authorize]
+        
         public async Task<ActionResult<PaginateResult<ProductDto>>> GetAllProducts([FromQuery] ProductParam QueryParam)
         {
             var Products =  await _serviceManager.ProductService.GetAllProductsAsync(QueryParam);

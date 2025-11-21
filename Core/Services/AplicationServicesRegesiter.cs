@@ -25,7 +25,19 @@ namespace Services
             Services.AddTransient<OrderPictureResolver>();
             //Services.AddAutoMapper(typeof(AplicationServicesRegesiter).Assembly);
 
-            Services.AddScoped<IServiceManager, ServiceManager>();
+            Services.AddScoped<IServiceManager, ServiceManagerWithFactoryDelegate>();
+           
+            Services.AddScoped<IProductService, ProductService>();
+            Services.AddScoped<Func<IProductService>>(Provider => () => Provider.GetRequiredService<IProductService>());
+
+            Services.AddScoped<IBasketService, BasketService>();
+            Services.AddScoped<Func<IBasketService>>(Provider => () => Provider.GetRequiredService<IBasketService>());
+            
+            Services.AddScoped<IOrderService, OrderService>();
+            Services.AddScoped<Func<IOrderService>>(Provider => () => Provider.GetRequiredService<IOrderService>());
+           
+            Services.AddScoped<IAuthunticationService, AuthenticationService>();
+            Services.AddScoped<Func<IAuthunticationService>>(Provider => () => Provider.GetRequiredService<IAuthunticationService>());
             return Services;
         }
     }
