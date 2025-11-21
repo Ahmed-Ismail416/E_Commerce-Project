@@ -18,7 +18,7 @@ namespace Services
                                 IBasketRepository _basketrepository,
                                 UserManager<ApplicationUser> _userManager,
                                 IConfiguration _config,
-                                IMapper _mapper) : IServiceManager
+                                IMapper _mapper)
     {
         public Lazy<IProductService> _productService = new Lazy<IProductService>(() => new ProductService(unitOfWork, mapper));
 
