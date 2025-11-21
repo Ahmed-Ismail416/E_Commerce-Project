@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.Attributes;
 using ServiceAbstraction;
 using Shared;
 using Shared.DTOs.ProductModuleDtos;
@@ -16,7 +17,7 @@ namespace Presentation.Controllers
     {
         //Get All Products
         [HttpGet]
-        
+        [Cache(5)]
         public async Task<ActionResult<PaginateResult<ProductDto>>> GetAllProducts([FromQuery] ProductParam QueryParam)
         {
             var Products =  await _serviceManager.ProductService.GetAllProductsAsync(QueryParam);
