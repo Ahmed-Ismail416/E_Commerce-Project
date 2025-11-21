@@ -39,7 +39,14 @@ namespace Services
             Services.AddScoped<IAuthunticationService, AuthenticationService>();
             Services.AddScoped<Func<IAuthunticationService>>(Provider => () => Provider.GetRequiredService<IAuthunticationService>());
             
+            Services.AddScoped<IPaymentService, PaymentService>();
+            Services.AddScoped<Func<IPaymentService>>(Provider => () => Provider.GetRequiredService<IPaymentService>());
+
+
             Services.AddScoped<ICacheService, CacheService>();
+
+
+
 
             return Services;
         }

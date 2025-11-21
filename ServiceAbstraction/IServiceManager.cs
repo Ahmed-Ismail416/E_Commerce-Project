@@ -13,5 +13,7 @@ namespace ServiceAbstraction
         public IBasketService BasketService { get; }
         public IAuthunticationService authunticationService { get; }
         public IOrderService OrderService { get; }
-    }
+
+        public IPaymentService PaymentService { get; }
+        }
 }
