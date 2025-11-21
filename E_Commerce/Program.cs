@@ -12,6 +12,7 @@ using ServiceAbstraction;
 using Services;
 using Services.Mapping;
 using Shared.ErrorModels;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace E_Commerce
 {
@@ -46,7 +47,17 @@ namespace E_Commerce
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerUI(options =>
+                {
+                    options.ConfigObject = new()
+                    {
+                        DisplayRequestDuration = true
+                    };
+                    options.DocumentTitle = "E_Commerce";
+
+                    options.DocExpansion( DocExpansion.None);
+
+                });
             }
 
             app.UseHttpsRedirection();
