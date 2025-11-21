@@ -38,6 +38,9 @@ namespace Services
            
             Services.AddScoped<IAuthunticationService, AuthenticationService>();
             Services.AddScoped<Func<IAuthunticationService>>(Provider => () => Provider.GetRequiredService<IAuthunticationService>());
+            
+            Services.AddScoped<ICacheService, CacheService>();
+
             return Services;
         }
     }
