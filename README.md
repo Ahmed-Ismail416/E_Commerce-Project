@@ -1,99 +1,312 @@
-# E-Commerce Web API
+# 🛒 E-Commerce Platform – ASP.NET Core Web API
 
-A production-ready E-Commerce backend solution built with **ASP.NET Core Web API**, following **Clean Architecture** principles. This project demonstrates advanced patterns like **Repository & Unit of Work**, **Specification Pattern**, and **Redis Caching** to ensure scalability, maintainability, and high performance.
-
-## Project Overview
-
-The goal of this project is to simulate a real-world e-commerce scenario, covering the full lifecycle from product browsing to secure payments and order management. It focuses heavily on code quality, separation of concerns, and preventing common security pitfalls (e.g., client-side price manipulation).
-
-## Architecture
-
-The solution is designed using **Clean Architecture** to decouple the core business logic from infrastructure and presentation details.
-
-### Solution Structure
-* **Core**
-    * `DomainLayer`: Enterprise logic, Entities, and Enums.
-    * `ServiceAbstraction`: Interfaces defining the contract for business logic (Dependency Inversion).
-    * `Services`: Implementation of the business logic.
-* **Infrastructure**
-    * `Persistence`: Database context, migrations, and repository implementations.
-    * `Presentation`: API Controllers and Endpoints.
-* **Shared**: Common DTOs, Constants, and Helper classes used across layers.
-
-## Key Features
-
-### Product Module
-* **Advanced Retrieval**: Full implementation of **Filtering, Searching, Sorting, and Pagination**.
-* **Performance**: Utilizes the **Specification Pattern** to build dynamic, efficient database queries.
-* **Data Shaping**: Uses **AutoMapper** with custom **URL Resolvers** to return optimized DTOs.
-
-### Basket Module (Redis)
-* **High-Speed Storage**: Utilizes **Redis** for temporary basket storage.
-* **Security Logic**: Automatically recalculates item prices from the database during basket creation to prevent client-side price tampering.
-* **Shipping**: Dynamic calculation of shipping costs added to the basket total.
-* **TTL**: Baskets expire automatically after 30 days.
-
-### Order & Payment Module (Stripe)
-* **Stripe Integration**: Implements **PaymentIntents** for secure transactions.
-* **Order Lifecycle**: Manages order creation, payment status updates, and shipping method selection.
-* **Webhooks**: Handles Stripe webhooks to verify payments and update order status asynchronously.
-* **Atomicity**: Ensures inventory and order consistency using Transactions.
-
-### Security & Identity
-* **JWT Authentication**: Secure stateless authentication using JSON Web Tokens.
-* **Authorization**: Role-based access control for administrative endpoints.
-* **User Management**: Registration, Login, and Address Management capabilities.
-* **Validation**: Comprehensive input validation and custom error handling.
-
-### Caching & Performance
-* **Redis Caching**: Caches heavy API responses to reduce database load.
-* **Custom Attributes**: Implemented custom attributes to easily toggle caching for specific GET endpoints.
-
-## Tech Stack
-
-* **Framework**: ASP.NET Core Web API (.NET 6/7/8)
-* **Database**: Microsoft SQL Server
-* **ORM**: Entity Framework Core
-* **Caching**: Redis
-* **Payments**: Stripe SDK
-* **Object Mapping**: AutoMapper
-* **Documentation**: Swagger / OpenAPI
-* **Identity**: ASP.NET Core Identity (extended)
-
-## Design Patterns & Concepts used
-* **Clean Architecture**
-* **Repository & Unit of Work Pattern**
-* **Specification Pattern** (for generic querying)
-* **Dependency Injection (DI)**
-* **Middleware** (Global Exception Handling)
-
-## Getting Started
-
-### Prerequisites
-* .NET SDK
-* SQL Server
-* Redis Server (Running locally or via Docker)
-* Stripe Account (for API Keys)
-
-### Installation
-1. Clone the repository.
-2. Update the `appsettings.json` with your connection strings (SQL & Redis) and Stripe keys.
-3. Run database migrations:
-    ```bash
-    dotnet ef database update -p Infrastructure/Persistence -s E_Commerce
-    ```
-4. Run the application:
-    ```bash
-    dotnet run --project E_Commerce
-    ```
-5. Access the API documentation via Swagger UI at `https://localhost:{port}/swagger`.
+A modern, scalable, and production‑ready **E-Commerce Backend** built with **ASP.NET Core 9** and designed using **Clean Architecture**. The system supports authentication, product catalog, shopping cart operations, ordering, payments, caching, and full API documentation.
 
 ---
 
-## Contact & Resume
+## 🎯 Project Overview
 
-If you have any questions about the architecture or implementation, feel free to reach out!
+A powerful backend designed to:
 
-* **Developed by:** Ahmed Ismail
-* **LinkedIn:** [www.linkedin.com/in/ahmed-ismail-536a71191]
-* **Resume (CV):** [https://drive.google.com/file/d/1Oety3Uk1wPNqSpLWyZKD8VaOqbnvgueQ/view?usp=sharing]
+* Manage product catalogs with filtering, sorting, and pagination
+* Securely authenticate and authorize users (JWT + Identity)
+* Handle shopping cart operations with Redis
+* Process orders with delivery methods and statuses
+* Integrate Stripe for payments
+* Follow Clean Architecture & SOLID principles
+
+---
+
+## ✨ Key Features
+
+### 🔐 Authentication & Authorization
+
+* JWT Authentication (Access + Refresh tokens)
+* ASP.NET Identity with custom `ApplicationUser`
+* Role support (Admin, SuperAdmin)
+* User profile + address management
+
+### 🛍️ Product Management
+
+* Brands, types, and full product catalog
+* Specification Pattern for filtering, searching, sorting
+* Product images & descriptions
+
+### 🛒 Shopping Cart
+
+* Redis-backed cart storage
+* Persistent user carts
+* Real‑time item updates
+
+### 📦 Order Management
+
+* Full order lifecycle (Pending → Payment Received/Failed)
+* Pricing snapshots per item
+* Delivery methods (UPS1–UPS4)
+* Shipping address handling
+
+### 💳 Payment Processing (Stripe)
+
+* Create Payment Intents
+* Validate & confirm payments
+* Webhook support for payment verification
+
+### ⚡ Performance & Optimization
+
+* Redis caching layer
+* Pagination & optimized DB queries
+* Exceptions middleware and unified error response
+
+### 📚 API Documentation
+
+* Full Swagger/OpenAPI support
+* Auto‑generated API specification
+
+---
+
+## 🏛️ Architecture
+
+### 🧱 Project Structure
+
+```
+E-Commerce/
+├── E_Commerce/                 # API entry point
+│   ├── Controllers/
+│   ├── Middlewares/
+│   ├── Extensions/
+│   └── Program.cs
+├── Core/                       # Domain + Services
+│   ├── DomainLayer/
+│   │   ├── Models/
+│   │   └── Contracts/
+│   └── Services/
+│       ├── Specifications/
+│       ├── Mapping/
+│       ├── OrderService.cs
+│       ├── PaymentService.cs
+│       ├── CacheService.cs
+│       └── AuthenticationService.cs
+├── ServiceAbstraction/         # Service interfaces
+├── Presentation/               # DTOs + Controllers
+├── Persistence/                # EF Core, Repos, Migrations
+└── Shared/                     # DTOs + Error Models
+```
+
+### Clean Architecture Layers
+
+1. **Domain** – Entities, business rules
+2. **Application Services** – Business logic
+3. **Service Abstractions** – Interfaces for DI
+4. **Presentation** – Controllers + DTOs
+5. **Persistence** – EF Core + Repositories
+6. **Shared** – Cross‑cutting concerns
+
+---
+
+## 🛠️ Technologies
+
+| Technology       | Version | Purpose           |
+| ---------------- | ------- | ----------------- |
+| .NET             | 9.0     | Runtime           |
+| ASP.NET Core     | 9.0     | Web API Framework |
+| EF Core          | 9.0.10  | ORM               |
+| SQL Server       | Latest  | Database          |
+| Redis            | 2.9.32  | Caching           |
+| Stripe.NET       | 50.0.0  | Payments          |
+| AutoMapper       | 15.1.0  | Mapping           |
+| Swagger          | 9.0.6   | API Docs          |
+| ASP.NET Identity | 9.0.10  | Auth              |
+
+---
+
+## 🚀 Getting Started
+
+### 📌 Prerequisites
+
+* .NET 9 SDK
+* SQL Server
+* Redis
+* VS 2022 / VS Code
+
+### 💾 Installation
+
+```bash
+git clone <your-repository>
+cd E-Commerce
+dotnet restore
+```
+
+### 🔧 Configuration
+
+Update **appsettings.json**:
+
+```
+ConnectionStrings: {
+  DefaultConnection: "Server=...;Database=ECommerceDB;...",
+  IdentityConnection: "Server=...;Database=ECommerceIdentityDB;..."
+},
+Redis: { ConnectionString: "localhost:6379" },
+Stripe: {
+  SecretKey: "your-key",
+  PublishableKey: "your-key"
+},
+JWT: {
+  SecretKey: "your-secret",
+  ExpirationMinutes: 60,
+  ValidIssuer: "ExampleIssuer",
+  ValidAudience: "ExampleAudience"
+}
+```
+
+### 🗄️ Database Migration
+
+```bash
+dotnet ef database update -p Persistence -s E_Commerce
+```
+
+### ▶️ Run the API
+
+```bash
+dotnet run --project E_Commerce
+```
+
+### 📘 Swagger UI
+
+`https://localhost:7001/swagger`
+
+---
+
+## 📡 API Endpoints
+
+### 🛒 Products
+
+```
+GET  /api/products
+GET  /api/products/{id}
+GET  /api/product-brands
+GET  /api/product-types
+```
+
+### 📦 Orders
+
+```
+POST /api/orders
+GET  /api/orders
+GET  /api/orders/{id}
+GET  /api/orders/delivery
+```
+
+### 💳 Payments
+
+```
+POST /api/payments
+POST /api/payments/webhook
+GET  /api/payments/{orderId}
+```
+
+### 🔐 Auth
+
+```
+POST /api/auth/register
+POST /api/auth/login
+POST /api/auth/refresh
+POST /api/auth/logout
+```
+
+---
+
+## 🗄️ Database Schema
+
+**Modules:**
+
+* **Products**: Brands, Types, Catalog
+* **Orders**: Delivery methods, Shipping, Items
+* **Identity**: Users, Roles, Addresses
+
+---
+
+## 🔐 Authentication (JWT)
+
+Flow:
+
+1. User logs in
+2. Server issues JWT token
+3. Client stores & sends token in headers
+4. Server validates & authorizes
+
+---
+
+## 💳 Payment Flow (Stripe)
+
+1. User places order
+2. Backend creates Payment Intent
+3. User pays through Stripe UI
+4. Webhook notifies backend
+5. Order marked as *Paid*
+
+---
+
+## 📦 Seeding
+
+Automated seeding on startup:
+
+* Products
+* Brands
+* Types
+* Delivery methods
+* Roles (Admin, SuperAdmin)
+* Admin test accounts
+
+---
+
+## 🐛 Error Handling
+
+Unified error format:
+
+```
+{
+  "statusCode": 400,
+  "message": "Validation failed",
+  "errors": [...]
+}
+```
+
+---
+
+## 🧪 Testing
+
+```bash
+dotnet test
+```
+
+---
+
+## 📊 Performance
+
+* Redis Caching
+* Pagination
+* Database Indexing
+* Async/Await
+
+---
+
+## 📝 Contributing
+
+1. `git checkout -b feature/my-feature`
+2. Make changes
+3. `git commit -m "Add feature"`
+4. `git push origin feature/my-feature`
+5. Open PR
+
+---
+
+## 👨‍💻 Author
+
+**Ahmed Ismail**
+
+* Email: [ahmedesm416@gmail.com](mailto:ahmedesm416@gmail.com)
+* LinkedIn: <www.linkedin.com/in/ahmed-ismail-536a71191>
+
+---
+
+
